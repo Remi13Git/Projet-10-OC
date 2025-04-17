@@ -53,7 +53,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build backend & generate coverage
-        working-directory: backend
+        working-directory: back
         run: mvn clean verify
 
       # Run SonarCloud analysis
