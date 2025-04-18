@@ -16,7 +16,12 @@ jobs:
   sonar-check:
     needs: backend-tests
     uses: ./.github/workflows/sonar.yml
+    secrets: 
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   docker-publish:
     needs: sonar-check
     uses: ./.github/workflows/docker-publish.yml
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }} 
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
