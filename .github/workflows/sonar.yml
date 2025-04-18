@@ -2,6 +2,9 @@ name: SonarCloud Quality Check
 
 on: 
   workflow_call:
+    secrets:
+        SONAR_TOKEN:
+          required: true
 
 jobs:
   build-and-analyze:
