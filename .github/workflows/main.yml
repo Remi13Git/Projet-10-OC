@@ -1,0 +1,41 @@
+name: Main Workflow
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Frontend Tests
+        uses: ./node.js.yml
+
+  backend-tests:
+    runs-on: ubuntu-latest
+    needs: frontend-tests  # Exécution après les tests du frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Backend Tests
+        uses: ./back.yml
+
+  sonar-check:
+    runs-on: ubuntu-latest
+    needs: backend-tests  # Exécution après les tests du backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run SonarCloud Quality Check
+        uses: ./sonar.yml
+
+  docker-publish:
+    runs-on: ubuntu-latest
+    needs: sonar-check  # Exécution après SonarCloud
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build and Push Docker Images
+        uses: ./docker-publish.yml
